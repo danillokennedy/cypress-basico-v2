@@ -12,25 +12,25 @@ describe('Central de Atendimento ao Cliente TAT', function() {
     })
 
     //AULA02 - Exercicio 1 extra
-    it('preenche os campos obrigatórios e envia o formulário', function() { //it.only - executar apenas este teste
+    it('Preenche os campos obrigatórios e envia o formulário', function() { //it.only - executar apenas este teste
         const textolongo = Cypress._.repeat('1234567890',20)
         cy.clock()
         cy.get('#firstName').type('Danillo')
         cy.get('#lastName').type('Teste')
         cy.get('#email').type('danillo@teste.com')
-        cy.get('#open-text-area').type(textolongo,{delay: 0})
-        cy.contains('button', 'Enviar').click()
+        cy.get('#open-text-area').type(textolongo, {delay: 0})
+        cy.contains('button', 'Enviar').click() // Ou poderia ser: cy.get('button[type="submit"]').click()
         cy.get('.success').should('be.visible').and('contain', 'Mensagem enviada com sucesso.')
         cy.tick(TRES_SEGUNDOS_EM_MS)
         cy.get('.success').should('not.be.visible')
     })
 
     //Exercicio 2 extra
-    it('exibe mensagem de erro ao submeter o formulário com um email com formatação inválida', function() {
+    it('Exibe mensagem de erro ao submeter o formulário com um email com formatação inválida', function() {
         cy.clock()
         cy.get('#firstName').type('Danillo')
         cy.get('#lastName').type('Teste')
-        cy.get('#email').type('danillo@teste,com')
+        cy.get('#email').type('danillo@teste,,,com')
         cy.get('#open-text-area').type('teste')
         cy.contains('button', 'Enviar').click()
         cy.get('.error').should('be.visible')
@@ -114,14 +114,14 @@ describe('Central de Atendimento ao Cliente TAT', function() {
     //AULA03 - Exxercicio 1
     it('seleciona um produto (YouTube) por seu texto', function() {
         cy.get('#product') //Seleciona o elemento do tipo Select
-            .select('YouTube') //Seleciona o texto da opção
+            .select('YouTube') //Seleciona pelo texto da opção
             .should('have.value', 'youtube')
     })
 
     //Exercicio 1 extra
     it('seleciona um produto (Mentoria) por seu valor (value)', function() {
         cy.get('#product')
-            .select('mentoria')
+            .select('mentoria') //Seleciona pelo valor
             .should('have.value', 'mentoria')
     })
 
@@ -135,7 +135,7 @@ describe('Central de Atendimento ao Cliente TAT', function() {
     //AULA04 - Exercicio
     it('marca o tipo de atendimento "Feedback"', function() {
         cy.get('input[type="radio"][value="feedback"]')
-            .click()
+            .check()
             .should('have.value', 'feedback')
     })
 
@@ -144,7 +144,7 @@ describe('Central de Atendimento ao Cliente TAT', function() {
         it('marca cada tipo de atendimento', function() {
             cy.clock()
             cy.get('input[type="radio"]')
-                .should('have.length',3)
+                .should('have.length',3) //have.length = comprimento ou quantidade
                 .each(function($radio) {
                     cy.wrap($radio).check()
                     cy.wrap($radio).should('have.checked')
@@ -172,7 +172,7 @@ describe('Central de Atendimento ao Cliente TAT', function() {
             .should('not.have.value')
             .selectFile('cypress/fixtures/example.json')
             .should(function($input) {
-                console.log($input)
+                console.log($input) //ele irá logar no playgroud do cypress e ira mostrar a inspeção desse input
                 expect($input[0].files[0].name).to.equal('example.json')
             })
 
@@ -182,7 +182,7 @@ describe('Central de Atendimento ao Cliente TAT', function() {
     it('seleciona um arquivo simulando um drag-and-drop', function() {
         cy.get('input[type="file"]#file-upload')
             .should('not.have.value')
-            .selectFile('cypress/fixtures/example.json', {action: 'drag-drop'})
+            .selectFile('cypress/fixtures/example.json', {action: 'drag-drop'}) //drag-drop é como se a gente estivesse arrastando um arquivo de uma pasta para o botão de selecione arquivo da pagina.
             .should(function($input) {
                 expect($input[0].files[0].name).to.equal('example.json')
             })
@@ -270,7 +270,7 @@ describe('Central de Atendimento ao Cliente TAT', function() {
     })
     
     //Desafio - Encontre o gato - AULA12
-    it.only("Desafio Encontre o gato", function() {
+    it("Desafio Encontre o gato", function() {
         cy.get('#cat')
             .invoke('show')
             .should('be.visible')
