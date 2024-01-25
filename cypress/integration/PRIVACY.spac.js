@@ -6,7 +6,7 @@ describe('Central de Atendimento ao Cliente TAT - Política de privacidade', fun
        
             cy.visit('./src/privacy.html')
             cy.title().should('be.equal','Central de Atendimento ao Cliente TAT - Política de privacidade')
-            cy.contains('#white-background', Texto).should('be.visible')
+            cy.contains('#white-background', 123).should('be.visible')
         })
     })
 })
